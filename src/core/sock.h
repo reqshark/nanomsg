@@ -21,7 +21,7 @@
 */
 
 #ifndef NN_SOCK_INCLUDED
-#define NN_SOCK_INCLUDED
+#define NN_SOCK_INCLUDED 1
 
 #include "../protocol.h"
 #include "../transport.h"

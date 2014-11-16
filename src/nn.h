@@ -21,6 +21,7 @@
     IN THE SOFTWARE.
 */
 
+
 #ifndef NN_H_INCLUDED
 #define NN_H_INCLUDED
 

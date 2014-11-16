@@ -21,7 +21,7 @@
 */
 
 #ifndef NN_SEM_INCLUDED
-#define NN_SEM_INCLUDED
+#define NN_SEM_INCLUDED 1
 
 /*  Simple semaphore. It can have only two values (0/1 i.e. locked/unlocked). */
 
@@ -39,7 +39,7 @@ void nn_sem_post (struct nn_sem *self);
 /*  Waits till sem object becomes unlocked and locks it. */
 int nn_sem_wait (struct nn_sem *self);
 
-#if defined NN_HAVE_OSX
+//#if defined NN_HAVE_OSX
 
 #include <pthread.h>
 
@@ -49,23 +49,23 @@ struct nn_sem {
     int signaled;
 };
 
-#elif defined NN_HAVE_WINDOWS
+//#elif defined NN_HAVE_WINDOWS
 
-#include "win.h"
+//#include "win.h"
 
-struct nn_sem {
-    HANDLE h;
-};
+//struct nn_sem {
+//    HANDLE h;
+//};
 
-#elif defined NN_HAVE_SEMAPHORE
+//#elif defined NN_HAVE_SEMAPHORE
 
-#include <semaphore.h>
+//#include <semaphore.h>
 
-struct nn_sem {
-    sem_t sem;
-};
+//struct nn_sem {
+//    sem_t sem;
+//};
 
-#endif
+//#endif
 
 #endif
 

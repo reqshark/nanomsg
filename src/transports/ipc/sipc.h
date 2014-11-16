@@ -21,7 +21,7 @@
 */
 
 #ifndef NN_SIPC_INCLUDED
-#define NN_SIPC_INCLUDED
+#define NN_SIPC_INCLUDED 1
 
 #include "../../transport.h"
 

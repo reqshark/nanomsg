@@ -28,16 +28,18 @@
 
 #include <string.h>
 
-#ifndef NN_HAVE_WINDOWS
-#include <sys/types.h>
 #include <netinet/in.h>
-#endif
+
+//#ifndef NN_HAVE_WINDOWS
+//#include <sys/types.h>
+//#include <netinet/in.h>
+//#endif
 
 /*  Private functions. */
 static void nn_iface_any (int ipv4only, struct sockaddr_storage *result,
     size_t *resultlen);
 
-#if defined NN_USE_IFADDRS
+//#if defined NN_USE_IFADDRS
 
 #include <ifaddrs.h>
 
@@ -120,90 +122,90 @@ int nn_iface_resolve (const char *addr, size_t addrlen, int ipv4only,
     return -ENODEV;
 }
 
-#endif
+//#endif
 
-#if defined NN_USE_SIOCGIFADDR
+//#if defined NN_USE_SIOCGIFADDR
 
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
+//#include <unistd.h>
+//#include <sys/ioctl.h>
+//#include <net/if.h>
 
-int nn_iface_resolve (const char *addr, size_t addrlen, int ipv4only,
-    struct sockaddr_storage *result, size_t *resultlen)
-{
-    int rc;
-    int s;
-    struct ifreq req;
+//int nn_iface_resolve (const char *addr, size_t addrlen, int ipv4only,
+//    struct sockaddr_storage *result, size_t *resultlen)
+//{
+//    int rc;
+//    int s;
+//    struct ifreq req;
 
-    /*  Asterisk is a special name meaning "all interfaces". */
-    if (addrlen == 1 && addr [0] == '*') {
-        nn_iface_any (ipv4only, result, resultlen);
-        return 0;
-    }
+//    /*  Asterisk is a special name meaning "all interfaces". */
+//    if (addrlen == 1 && addr [0] == '*') {
+//        nn_iface_any (ipv4only, result, resultlen);
+//        return 0;
+//    }
 
-    /*  Open the helper socket. */
-#ifdef SOCK_CLOEXEC
-    s = socket (AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
-#else
-    s = socket (AF_INET, SOCK_DGRAM, 0);
-#endif
-    errno_assert (s != -1);
+//    /*  Open the helper socket. */
+//#ifdef SOCK_CLOEXEC
+//    s = socket (AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
+//#else
+//    s = socket (AF_INET, SOCK_DGRAM, 0);
+//#endif
+//    errno_assert (s != -1);
 
-    /*  Create the interface name resolution request. */
-    if (sizeof (req.ifr_name) <= addrlen) {
-        nn_closefd (s);
-        return -ENODEV;
-    }
-    memcpy (req.ifr_name, addr, addrlen);
-    req.ifr_name [addrlen] = 0;
+//    /*  Create the interface name resolution request. */
+//    if (sizeof (req.ifr_name) <= addrlen) {
+//        nn_closefd (s);
+//        return -ENODEV;
+//    }
+//    memcpy (req.ifr_name, addr, addrlen);
+//    req.ifr_name [addrlen] = 0;
 
-    /*  Execute the request. */
-    rc = ioctl (s, SIOCGIFADDR, (caddr_t) &req, sizeof (struct ifreq));
-    if (rc == -1) {
-        nn_closefd (s);
-        return -ENODEV;
-    }
+//    /*  Execute the request. */
+//    rc = ioctl (s, SIOCGIFADDR, (caddr_t) &req, sizeof (struct ifreq));
+//    if (rc == -1) {
+//        nn_closefd (s);
+//        return -ENODEV;
+//    }
 
-    /*  Interface name resolution succeeded. Return the address to the user. */
-    /*  TODO: What about IPv6 addresses? */
-    nn_assert (req.ifr_addr.sa_family == AF_INET);
-    if (result)
-        memcpy (result, (struct sockaddr_in*) &req.ifr_addr,
-            sizeof (struct sockaddr_in));
-    if (resultlen)
-        *resultlen = sizeof (struct sockaddr_in);
-    nn_closefd (s);
-    return 0;
-}
+//    /*  Interface name resolution succeeded. Return the address to the user. */
+//    /*  TODO: What about IPv6 addresses? */
+//    nn_assert (req.ifr_addr.sa_family == AF_INET);
+//    if (result)
+//        memcpy (result, (struct sockaddr_in*) &req.ifr_addr,
+//            sizeof (struct sockaddr_in));
+//    if (resultlen)
+//        *resultlen = sizeof (struct sockaddr_in);
+//    nn_closefd (s);
+//    return 0;
+//}
 
-#endif
+//#endif
 
-#if defined NN_USE_LITERAL_IFADDR
+//#if defined NN_USE_LITERAL_IFADDR
 
 /*  The last resort case. If we haven't found any mechanism for turning
     NIC names into addresses, we'll try to resolve the string as an address
     literal. */
-int nn_iface_resolve (const char *addr, size_t addrlen, int ipv4only,
-    struct sockaddr_storage *result, size_t *resultlen)
-{
-    int rc;
+//int nn_iface_resolve (const char *addr, size_t addrlen, int ipv4only,
+//    struct sockaddr_storage *result, size_t *resultlen)
+//{
+//    int rc;
 
-    /*  Asterisk is a special name meaning "all interfaces". */
-    if (addrlen == 1 && addr [0] == '*') {
-        nn_iface_any (ipv4only, result, resultlen);
-        return 0;
-    }
+//    /*  Asterisk is a special name meaning "all interfaces". */
+//    if (addrlen == 1 && addr [0] == '*') {
+//        nn_iface_any (ipv4only, result, resultlen);
+//        return 0;
+//    }
 
-    /*  On Windows there are no sane network interface names. We'll treat the
-        name as a IP address literal. */
-    rc = nn_literal_resolve (addr, addrlen, ipv4only, result, resultlen);
-    if (rc == -EINVAL)
-        return -ENODEV;
-    errnum_assert (rc == 0, -rc);
-    return 0;
-}
+//    /*  On Windows there are no sane network interface names. We'll treat the
+//        name as a IP address literal. */
+//    rc = nn_literal_resolve (addr, addrlen, ipv4only, result, resultlen);
+//    if (rc == -EINVAL)
+//        return -ENODEV;
+//    errnum_assert (rc == 0, -rc);
+//    return 0;
+//}
 
-#endif
+//#endif
 
 static void nn_iface_any (int ipv4only, struct sockaddr_storage *result,
     size_t *resultlen)

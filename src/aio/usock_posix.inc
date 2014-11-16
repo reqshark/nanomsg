@@ -190,11 +190,11 @@ static void nn_usock_init_from_fd (struct nn_usock *self, int s)
         the option) but the problem is pretty unlikely to happen. */
 #if defined FD_CLOEXEC
     rc = fcntl (self->s, F_SETFD, FD_CLOEXEC);
-#if defined NN_HAVE_OSX
+//#if defined NN_HAVE_OSX
     errno_assert (rc != -1 || errno == EINVAL);
-#else
-    errno_assert (rc != -1);
-#endif
+//#else
+//    errno_assert (rc != -1);
+//#endif
 #endif
 
     /* If applicable, prevent SIGPIPE signal when writing to the connection
@@ -202,11 +202,11 @@ static void nn_usock_init_from_fd (struct nn_usock *self, int s)
 #ifdef SO_NOSIGPIPE
     opt = 1;
     rc = setsockopt (self->s, SOL_SOCKET, SO_NOSIGPIPE, &opt, sizeof (opt));
-#if defined NN_HAVE_OSX
+//#if defined NN_HAVE_OSX
     errno_assert (rc == 0 || errno == EINVAL);
-#else
-    errno_assert (rc == 0);
-#endif
+//#else
+//    errno_assert (rc == 0);
+//#endif
 #endif
 
     /* Switch the socket to the non-blocking mode. All underlying sockets
@@ -216,11 +216,11 @@ static void nn_usock_init_from_fd (struct nn_usock *self, int s)
         opt = 0;
     if (!(opt & O_NONBLOCK)) {
         rc = fcntl (self->s, F_SETFL, opt | O_NONBLOCK);
-#if defined NN_HAVE_OSX
+//#if defined NN_HAVE_OSX
         errno_assert (rc != -1 || errno == EINVAL);
-#else
-        errno_assert (rc != -1);
-#endif
+//#else
+//        errno_assert (rc != -1);
+//#endif
     }
 }
 
@@ -255,13 +255,13 @@ int nn_usock_setsockopt (struct nn_usock *self, int level, int optname,
         the option value was invalid, but the peer have already closed the
         connection. This behaviour should be relatively harmless. */
     rc = setsockopt (self->s, level, optname, optval, (socklen_t) optlen);
-#if defined NN_HAVE_OSX
+//#if defined NN_HAVE_OSX
     if (nn_slow (rc != 0 && errno != EINVAL))
         return -errno;
-#else
-    if (nn_slow (rc != 0))
-        return -errno;
-#endif
+//#else
+//    if (nn_slow (rc != 0))
+//        return -errno;
+//#endif
 
     return 0;
 }

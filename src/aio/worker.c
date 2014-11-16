@@ -22,11 +22,11 @@
 
 #include "worker.h"
 
-#if defined NN_HAVE_WINDOWS
-#include "worker_win.inc"
-#else
+//#if defined NN_HAVE_WINDOWS
+//#include "worker_win.inc"
+//#else
 #include "worker_posix.inc"
-#endif
+//#endif
 
 void nn_worker_timer_init (struct nn_worker_timer *self, struct nn_fsm *owner)
 {

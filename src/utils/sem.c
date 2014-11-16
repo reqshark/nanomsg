@@ -24,7 +24,8 @@
 #include "err.h"
 #include "fast.h"
 
-#if defined NN_HAVE_OSX
+
+//#if defined NN_HAVE_OSX
 
 void nn_sem_init (struct nn_sem *self)
 {
@@ -91,79 +92,79 @@ int nn_sem_wait (struct nn_sem *self)
     return 0;
 }
 
-#elif defined NN_HAVE_WINDOWS
+//#elif defined NN_HAVE_WINDOWS
 
-void nn_sem_init (struct nn_sem *self)
-{
-    self->h = CreateEvent (NULL, FALSE, FALSE, NULL);
-    win_assert (self->h);
-}
+//void nn_sem_init (struct nn_sem *self)
+//{
+//    self->h = CreateEvent (NULL, FALSE, FALSE, NULL);
+//    win_assert (self->h);
+//}
 
-void nn_sem_term (struct nn_sem *self)
-{
-    BOOL brc;
+//void nn_sem_term (struct nn_sem *self)
+//{
+//    BOOL brc;
 
-    brc = CloseHandle (self->h);
-    win_assert (brc);
-}
+//    brc = CloseHandle (self->h);
+//    win_assert (brc);
+//}
 
-void nn_sem_post (struct nn_sem *self)
-{
-    BOOL brc;
+//void nn_sem_post (struct nn_sem *self)
+//{
+//    BOOL brc;
 
-    brc = SetEvent (self->h);
-    win_assert (brc);
-}
+//    brc = SetEvent (self->h);
+//    win_assert (brc);
+//}
 
-int nn_sem_wait (struct nn_sem *self)
-{
-    DWORD rc;
+//int nn_sem_wait (struct nn_sem *self)
+//{
+//    DWORD rc;
 
-    rc = WaitForSingleObject (self->h, INFINITE);
-    win_assert (rc != WAIT_FAILED);
-    nn_assert (rc == WAIT_OBJECT_0);
+//    rc = WaitForSingleObject (self->h, INFINITE);
+//    win_assert (rc != WAIT_FAILED);
+//    nn_assert (rc == WAIT_OBJECT_0);
 
-    return 0;
-}
+//    return 0;
+//}
 
-#elif defined NN_HAVE_SEMAPHORE
+//#elif defined NN_HAVE_SEMAPHORE
 
-void nn_sem_init (struct nn_sem *self)
-{
-    int rc;
+//void nn_sem_init (struct nn_sem *self)
+//{
+//    int rc;
 
-    rc = sem_init (&self->sem, 0, 0);
-    errno_assert (rc == 0);
-}
+//    rc = sem_init (&self->sem, 0, 0);
+//    errno_assert (rc == 0);
+//}
 
-void nn_sem_term (struct nn_sem *self)
-{
-    int rc;
+//void nn_sem_term (struct nn_sem *self)
+//{
+//    int rc;
 
-    rc = sem_destroy (&self->sem);
-    errno_assert (rc == 0);
-}
+//    rc = sem_destroy (&self->sem);
+//    errno_assert (rc == 0);
+//}
 
-void nn_sem_post (struct nn_sem *self)
-{
-    int rc;
+//void nn_sem_post (struct nn_sem *self)
+//{
+//    int rc;
 
-    rc = sem_post (&self->sem);
-    errno_assert (rc == 0);
-}
+//    rc = sem_post (&self->sem);
+//    errno_assert (rc == 0);
+//}
 
-int nn_sem_wait (struct nn_sem *self)
-{
-    int rc;
+//int nn_sem_wait (struct nn_sem *self)
+//{
+//    int rc;
 
-    rc = sem_wait (&self->sem);
-    if (nn_slow (rc < 0 && errno == EINTR))
-        return -EINTR;
-    errno_assert (rc == 0);
-    return 0;
-}
+//    rc = sem_wait (&self->sem);
+//    if (nn_slow (rc < 0 && errno == EINTR))
+//        return -EINTR;
+//    errno_assert (rc == 0);
+//    return 0;
+//}
 
-#else
-#error
-#endif
+//#else
+//#error
+//#endif
 

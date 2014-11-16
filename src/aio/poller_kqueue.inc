@@ -27,11 +27,11 @@
 #include <unistd.h>
 
 /*  NetBSD has different definition of udata. */
-#if defined NN_HAVE_NETBSD
-#define nn_poller_udata intptr_t
-#else
+//#if defined NN_HAVE_NETBSD
+//#define nn_poller_udata intptr_t
+//#else
 #define nn_poller_udata void*
-#endif
+//#endif
 
 int nn_poller_init (struct nn_poller *self)
 {

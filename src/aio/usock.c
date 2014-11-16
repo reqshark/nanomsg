@@ -22,11 +22,11 @@
 
 #include "usock.h"
 
-#if defined NN_HAVE_WINDOWS
-#include "usock_win.inc"
-#else
+//#if defined NN_HAVE_WINDOWS
+//#include "usock_win.inc"
+//#else
 #include "usock_posix.inc"
-#endif
+//#endif
 
 int nn_usock_geterrno (struct nn_usock *self) {
     return self->errnum;

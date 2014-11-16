@@ -21,7 +21,7 @@
 */
 
 #ifndef NN_POOL_INCLUDED
-#define NN_POOL_INCLUDED
+#define NN_POOL_INCLUDED 1
 
 #include "worker.h"
 

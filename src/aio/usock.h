@@ -21,7 +21,7 @@
 */
 
 #ifndef NN_USOCK_INCLUDED
-#define NN_USOCK_INCLUDED
+#define NN_USOCK_INCLUDED 1
 
 /*  Import the definition of nn_iovec. */
 #include "../nn.h"
@@ -45,11 +45,11 @@
     performance optimal make sure that this value is larger than network MTU. */
 #define NN_USOCK_BATCH_SIZE 2048
 
-#if defined NN_HAVE_WINDOWS
-#include "usock_win.h"
-#else
+//#if defined NN_HAVE_WINDOWS
+//#include "usock_win.h"
+//#else
 #include "usock_posix.h"
-#endif
+//#endif
 
 void nn_usock_init (struct nn_usock *self, int src, struct nn_fsm *owner);
 void nn_usock_term (struct nn_usock *self);

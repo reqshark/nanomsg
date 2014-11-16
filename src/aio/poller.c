@@ -22,14 +22,14 @@
 
 #include "poller.h"
 
-#if !defined NN_HAVE_WINDOWS
+//#if !defined NN_HAVE_WINDOWS
 
-#if defined NN_USE_POLL
-#include "poller_poll.inc"
-#elif defined NN_USE_EPOLL
-#include "poller_epoll.inc"
-#elif defined NN_USE_KQUEUE
+//#if defined NN_USE_POLL
+//#include "poller_poll.inc"
+//#elif defined NN_USE_EPOLL
+//#include "poller_epoll.inc"
+//#elif defined NN_USE_KQUEUE
 #include "poller_kqueue.inc"
-#endif
+//#endif
 
-#endif
+//#endif

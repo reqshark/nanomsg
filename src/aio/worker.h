@@ -22,16 +22,16 @@
 */
 
 #ifndef NN_WORKER_INCLUDED
-#define NN_WORKER_INCLUDED
+#define NN_WORKER_INCLUDED 1
 
 #include "fsm.h"
 #include "timerset.h"
 
-#if defined NN_HAVE_WINDOWS
-#include "worker_win.h"
-#else
+//#if defined NN_HAVE_WINDOWS
+//#include "worker_win.h"
+//#else
 #include "worker_posix.h"
-#endif
+//#endif
 
 #define NN_WORKER_TIMER_TIMEOUT 1
 

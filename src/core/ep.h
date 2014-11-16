@@ -21,7 +21,7 @@
 */
 
 #ifndef NN_EP_INCLUDED
-#define NN_EP_INCLUDED
+#define NN_EP_INCLUDED 1
 
 #include "../transport.h"
 

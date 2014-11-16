@@ -20,22 +20,22 @@
     IN THE SOFTWARE.
 */
 
-#ifndef NN_POLLER_INCLUDED
+#ifndef NN_POLLER_INCLUDED //1
 #define NN_POLLER_INCLUDED
 
-#if !defined NN_HAVE_WINDOWS
+//#if !defined NN_HAVE_WINDOWS
 
 #define NN_POLLER_IN 1
 #define NN_POLLER_OUT 2
 #define NN_POLLER_ERR 3
 
-#if defined NN_USE_POLL
-#include "poller_poll.h"
-#elif defined NN_USE_EPOLL
-#include "poller_epoll.h"
-#elif defined NN_USE_KQUEUE
+//#if defined NN_USE_POLL
+//#include "poller_poll.h"
+//#elif defined NN_USE_EPOLL
+//#include "poller_epoll.h"
+//#elif defined NN_USE_KQUEUE
 #include "poller_kqueue.h"
-#endif
+//#endif
 
 int nn_poller_init (struct nn_poller *self);
 void nn_poller_term (struct nn_poller *self);
@@ -50,7 +50,7 @@ int nn_poller_wait (struct nn_poller *self, int timeout);
 int nn_poller_event (struct nn_poller *self, int *event,
     struct nn_poller_hndl **hndl);
 
-#endif
+//#endif
 
 #endif
 

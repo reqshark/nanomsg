@@ -22,19 +22,19 @@
 
 #include "efd.h"
 
-#if defined NN_HAVE_WINDOWS
-#include "efd_win.inc"
-#elif defined NN_HAVE_EVENTFD
-#include "efd_eventfd.inc"
-#elif defined NN_HAVE_PIPE
+//#if defined NN_HAVE_WINDOWS
+//#include "efd_win.inc"
+//#elif defined NN_HAVE_EVENTFD
+//#include "efd_eventfd.inc"
+//#elif defined NN_HAVE_PIPE
 #include "efd_pipe.inc"
-#elif defined NN_HAVE_SOCKETPAIR
-#include "efd_socketpair.inc"
-#else
-#error
-#endif
+//#elif defined NN_HAVE_SOCKETPAIR
+//#include "efd_socketpair.inc"
+//#else
+//#error
+//#endif
 
-#if defined NN_HAVE_POLL
+//#if defined NN_HAVE_POLL
 
 #include <poll.h>
 
@@ -54,26 +54,26 @@ int nn_efd_wait (struct nn_efd *self, int timeout)
     return 0;
 }
 
-#elif defined NN_HAVE_WINDOWS
+//#elif defined NN_HAVE_WINDOWS
 
-int nn_efd_wait (struct nn_efd *self, int timeout)
-{
-    int rc;
-    struct timeval tv;
+//int nn_efd_wait (struct nn_efd *self, int timeout)
+//{
+//    int rc;
+//    struct timeval tv;
 
-    FD_SET (self->r, &self->fds);
-    if (timeout >= 0) {
-        tv.tv_sec = timeout / 1000;
-        tv.tv_usec = timeout % 1000 * 1000;
-    }
-    rc = select (0, &self->fds, NULL, NULL, timeout >= 0 ? &tv : NULL);
-    wsa_assert (rc != SOCKET_ERROR);
-    if (nn_slow (rc == 0))
-        return -ETIMEDOUT;
-    return 0;
-}
+//    FD_SET (self->r, &self->fds);
+//    if (timeout >= 0) {
+//        tv.tv_sec = timeout / 1000;
+//        tv.tv_usec = timeout % 1000 * 1000;
+//    }
+//    rc = select (0, &self->fds, NULL, NULL, timeout >= 0 ? &tv : NULL);
+//    wsa_assert (rc != SOCKET_ERROR);
+//    if (nn_slow (rc == 0))
+//        return -ETIMEDOUT;
+//    return 0;
+//}
 
-#else
-#error
-#endif
+//#else
+//#error
+//#endif
 
